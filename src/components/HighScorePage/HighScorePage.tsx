@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { getAllHighScores } from "../../api/highScoresApi";
+import { getAllHighScores, highScoreData } from "../../api/highScoresApi";
 
 const HighScorePage = () => {
-  const [highScores, setHighScores] = useState<any>(null);
+  const [highScores, setHighScores] = useState<highScoreData[] | null>(null);
 
   useEffect(() => {
     getAllHighScores().then((res) => setHighScores(res));
@@ -16,7 +16,7 @@ const HighScorePage = () => {
       </div>
       <div className="space-y-2">
         {highScores
-          ? highScores.map((score: any, idx: number) => (
+          ? highScores.map((score: highScoreData, idx: number) => (
               <div key={idx} className="flex items-center">
                 <div className="flex-[4]">{score.name}</div>
                 <div className="flex-1 text-center">{score.score}</div>

@@ -1,6 +1,6 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 
-export const fetchPokemonApi: any = async () => {
+export const fetchPokemonApi = async () => {
   let response = await fetch(`${BASE_URL}?limit=151`);
   let data = await response.json();
   return data.results;

@@ -4,8 +4,8 @@ interface props {
   score: number;
   highScores: highScoreData[];
   submitScore: () => void;
-  setNameInput: React.Dispatch<React.SetStateAction<any>>;
-  setHighScoreModal: React.Dispatch<React.SetStateAction<any>>;
+  setNameInput: React.Dispatch<React.SetStateAction<string>>;
+  setHighScoreModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const HighScoreModal = ({

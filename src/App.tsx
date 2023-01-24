@@ -10,7 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <Nav />
-      <div className="App justify-center flex items-center h-[100vh]">
+      <div className="App justify-center flex h-[100vh]">
         <Routes>
           <Route path="/" element={<GameConatiner />} />
           <Route path="/highscores" element={<HighScorePage />} />

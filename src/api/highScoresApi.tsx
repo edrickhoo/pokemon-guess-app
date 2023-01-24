@@ -7,7 +7,12 @@ export const getAllHighScores = async () => {
   return data;
 };
 
-export const postHighScore = async (data: any) => {
+export interface highScoreData {
+  name: String;
+  score: number;
+}
+
+export const postHighScore = async (data: highScoreData) => {
   const response = await fetch(BASE_URL, {
     method: "POST",
     headers: {

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getAllHighScores, postHighScore } from "../api/highScoresApi";
+import {
+  getAllHighScores,
+  highScoreData,
+  postHighScore,
+} from "../api/highScoresApi";
 import {
   fetchPokemonApi,
   fetchSinglePokemonApi,
@@ -14,15 +18,14 @@ const GameContainer = () => {
   const [guessOptions, setGuessOptions] = useState<string[]>([]);
   const [timer, setTimer] = useState<number | undefined>(30);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
-  const [inter, setInter] = useState<any>(null);
+  const [inter, setInter] = useState(null);
   const [highScoreModal, setHighScoreModal] = useState<boolean>(false);
-  const [highScores, setHighScores] = useState<any>(null);
+  const [highScores, setHighScores] = useState<highScoreData | null>(null);
   const [nameInput, setNameInput] = useState<String>("");
 
   useEffect(() => {
-    fetchPokemonApi().then((data: any) => {
+    fetchPokemonApi().then((data) => {
       setPokemonList(data);
-      console.log("yo", data);
     });
   }, []);
 
@@ -32,8 +35,10 @@ const GameContainer = () => {
 
   function startTimerAndRound() {
     setScore(0);
-    setTimer(5);
+    setTimer(30);
+    setIsGameOver(false);
     startRound();
+
     const intId = setInterval(() => {
       setTimer((timer: any) => {
         if (timer === 0) {
@@ -69,7 +74,6 @@ const GameContainer = () => {
 
     while (tempGuessOptions.length < 4) {
       let random: number = getRandomPokemonNumber();
-      console.log(random);
       if (
         pokemonList[random].name !== data.name &&
         !tempGuessOptions.includes(pokemonList[random].name)
@@ -111,20 +115,28 @@ const GameContainer = () => {
       setScore((prev) => prev + 1);
       startRound();
     } else {
+      fetchAndSetHighScore();
+      setHighScoreModal(true);
       setIsGameOver(true);
+      setTimer(0);
     }
   };
 
   return (
-    <main>
-      <div>Score: {score}</div>
-      <div>Timer: {timer}</div>
-      <div>{isGameOver ? "GameOver" : null}</div>
-      <button onClick={() => startTimerAndRound()}>Start</button>
-      <div>
+    <main className="h-[80vh] self-center">
+      <div className="text-center">Score: {score}</div>
+      <div className="text-center">Timer: {timer}</div>
+      <div className="text-center">{isGameOver ? "GameOver" : null}</div>
+      <div className="text-center">
+        <button className="text-center" onClick={() => startTimerAndRound()}>
+          Start
+        </button>
+      </div>
+
+      <div className="mx-auto">
         {/* back out img at 10 score */}
         <img
-          className={`${score > 9 ? "brightness-0" : null}`}
+          className={`${score > 9 ? "brightness-0" : null} mx-auto`}
           src={score < 4 ? correctPokemon?.img : correctPokemon?.img_shiny}
           alt={correctPokemon?.name}
         />
